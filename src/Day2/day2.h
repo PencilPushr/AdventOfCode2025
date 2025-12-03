@@ -4,40 +4,44 @@
 
 namespace d2 {
 
-	int g_iResult = 0;
+	uint64_t g_iResult = 0;
 
 	inline
-	bool
+	void
 	CheckRangeForInvalidIDs(
-		int iMin,
-		int iMax
+		uint64_t iMin,
+		uint64_t iMax
 	)
 	{
 		// 1. Iterate over the range, from min to max
-		for (int i = iMin; i < iMax; i++)
+		for (uint64_t i = iMin; i <= iMax; i++)
 		{
 			// 2. break apart the current number into an array, perform two pointer comparison
 			
 			std::string sArr = std::to_string(i);
 
 			if (sArr.size() % 2 != 0)
-			{
-				std::cerr << "Array size was not even digit, it cannot be split into 2";
-				return false;
-			}
+				continue;
 
 			int iMid = sArr.size() / 2;
-			for (int a = 0; a < iMid; a++)
+			bool bIsInvalid = true;
+			for (uint64_t j = 0; j < iMid; j++)
 			{
-				if (sArr[a] != sArr[a + iMid]) break;
+				if (sArr[j] != sArr[j + iMid])
+				{
+					bIsInvalid = false;
+					break;
+				}
 			}
 
 			// 3. if the current number IS palindromic -> add it to g_iResult;
+			if (bIsInvalid)
+				g_iResult += i;
 		}
 	}
 
 	inline
-	int
+	uint64_t
 	Run()
 	{
 		const char * pFilename = "input_d2.txt";
@@ -63,14 +67,18 @@ namespace d2 {
 			// sRange should contain "12077-25471"
 			std::stringstream ssRange(sRange);
 
-			int iMin, iMax;
+			uint64_t iMin, iMax;
 			char cDash;
 
 			ssRange >> iMin >> cDash >> iMax;
 
-			if (!CheckRangeForInvalidIDs(iMin, iMax)) break;
+			std::cout << "Range: " << iMin << " " << cDash << " " << iMax << "\n";
+
+			CheckRangeForInvalidIDs(iMin, iMax);
 
 		}
+
+		return g_iResult;
 	}
 
 }

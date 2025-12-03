@@ -2,9 +2,10 @@
 //
 
 #include "Day1/day1.h"
+#include "Day2/day2.h"
 
 int main()
 {
-	printf("%d", d1::Run());
+	printf("%d", d2::Run());
 	return 0;
 }
