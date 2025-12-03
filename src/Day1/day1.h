@@ -28,23 +28,30 @@ namespace d1 {
 		}
 
 		int iPos = 50;
+		int iCount = 0; // Part 2: How many times we wrap around
 
 		char cDir;			// direction is 'L' or 'R'
 		int iDist;			// distance is already parsed as int
 		while (fFile >> cDir >> iDist)
 		{
-			if ( cDir == 'L' )
+			if (cDir == 'L')
 			{
+				// LEFT: how many times we pass through 0
+				if (iPos == 0)
+					g_iResult += iDist / 100;
+				else
+					g_iResult += (iDist - iPos + 100) / 100;
+
 				iPos = IndexLoop(iPos, -iDist);
 			}
-			else if ( cDir == 'R' )
+			else if (cDir == 'R')
 			{
+				// RIGHT: how many times we wrap past 99 -> 0
+				g_iResult += (iPos + iDist) / 100;
 				iPos = IndexLoop(iPos, iDist);
 			}
-			else 
+			else
 				return -1;
-
-			if (iPos == 0) g_iResult++;
 		}
 
 		return g_iResult;
