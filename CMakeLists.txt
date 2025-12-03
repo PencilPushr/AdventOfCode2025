@@ -11,16 +11,22 @@ endif()
 
 project ("AdventOfCode2025")
 
-file(GLOB_RECURSE ${SRC_FILES}
+file(GLOB_RECURSE SRC_FILES
 	src/*.cpp
 	src/*.h
 )
 
+file(GLOB UTIL_FILES
+	util/*.cpp
+	util/*.h
+)
+
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} main.cpp ${SRC_FILES})
+add_executable (${PROJECT_NAME} main.cpp ${SRC_FILES} ${UTIL_FILES})
 
 target_include_directories( ${PROJECT_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_SOURCE_DIR}/util
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
