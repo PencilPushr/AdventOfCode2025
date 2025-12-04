@@ -13,43 +13,38 @@ namespace d2 {
 		uint64_t iMax
 	)
 	{
-		// 1. Iterate over the range, from min to max
-		for (uint64_t i = iMin; i <= iMax; i++)
+		for ( uint64_t i = iMin; i <= iMax; i++ )
 		{
-			// 2. break apart the current number into an array - look for the longest repeating subpattern
-			std::string sArr = std::to_string(i);
+			std::string sArr = std::to_string( i );
+			int length = sArr.size();
+			bool bIsInvalid = false;
 
-			bool bIsInvalid = true;
-
-			 // Size is odd or even; looking for any repeating sub-pattern
-			
-			int l = 0;
-			int r = 0;
-			std::unordered_set<chars> set;
-			int maxLen = 0;
-
-			// Get the repeating pattern size
-			while (r < sArr.size())
+			// Try all possible pattern lengths
+			for ( int patternLength = 1; patternLength <= length / 2; patternLength++ )
 			{
-				while( set.find(sArr[r]) != set.end() )
+				// Pattern must divide evenly into the total length
+				if ( length % patternLength != 0 )
+					continue;
+
+				// Check if this pattern repeats throughout
+				bool bIsRepeating = true;
+				for ( int j = 0; j < length; j++ )
 				{
-					l++;
+					if (sArr[ j ] != sArr[ j % patternLength ])
+					{
+						bIsRepeating = false;
+						break;
+					}
 				}
-				r++;
+
+				if ( bIsRepeating )
+				{
+					bIsInvalid = true;
+					break;  // Found a repeating pattern, no need to check more
+				}
 			}
 
-			for (uint64_t j = 0; j < sArr.size(); j++)
-			{
-				if ()
-			}
-			
-
-
-			// Sliding window to determine whether the pattern exists
-
-
-			// 3. if the current number has a repeating sub-pattern -> add it to g_iResult;
-			if (bIsInvalid)
+			if ( bIsInvalid )
 				g_iResult += i;
 		}
 	}
