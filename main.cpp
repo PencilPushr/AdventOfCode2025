@@ -6,6 +6,6 @@
 
 int main()
 {
-	printf("%d", d2::Run());
+	printf("%llu", d2::Run());
 	return 0;
 }

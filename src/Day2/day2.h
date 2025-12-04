@@ -4,7 +4,7 @@
 
 namespace d2 {
 
-	uint64_t g_iResult = 0;
+	inline uint64_t g_iResult = 0;
 
 	inline
 	void
@@ -16,25 +16,39 @@ namespace d2 {
 		// 1. Iterate over the range, from min to max
 		for (uint64_t i = iMin; i <= iMax; i++)
 		{
-			// 2. break apart the current number into an array, perform two pointer comparison
-			
+			// 2. break apart the current number into an array - look for the longest repeating subpattern
 			std::string sArr = std::to_string(i);
 
-			if (sArr.size() % 2 != 0)
-				continue;
-
-			int iMid = sArr.size() / 2;
 			bool bIsInvalid = true;
-			for (uint64_t j = 0; j < iMid; j++)
+
+			 // Size is odd or even; looking for any repeating sub-pattern
+			
+			int l = 0;
+			int r = 0;
+			std::unordered_set<chars> set;
+			int maxLen = 0;
+
+			// Get the repeating pattern size
+			while (r < sArr.size())
 			{
-				if (sArr[j] != sArr[j + iMid])
+				while( set.find(sArr[r]) != set.end() )
 				{
-					bIsInvalid = false;
-					break;
+					l++;
 				}
+				r++;
 			}
 
-			// 3. if the current number IS palindromic -> add it to g_iResult;
+			for (uint64_t j = 0; j < sArr.size(); j++)
+			{
+				if ()
+			}
+			
+
+
+			// Sliding window to determine whether the pattern exists
+
+
+			// 3. if the current number has a repeating sub-pattern -> add it to g_iResult;
 			if (bIsInvalid)
 				g_iResult += i;
 		}
