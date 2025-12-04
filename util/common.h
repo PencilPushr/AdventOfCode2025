@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_set>
+#include <algorithm>
 
 #ifdef WTYPES
 

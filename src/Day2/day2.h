@@ -4,7 +4,7 @@
 
 namespace d2 {
 
-	inline uint64_t g_iResult = 0;
+	inline uint64_t g_unResult = 0;
 
 	inline
 	void
@@ -19,7 +19,7 @@ namespace d2 {
 			int length = sArr.size();
 			bool bIsInvalid = false;
 
-			// Try all possible pattern lengths
+			// Try all possible pattern lengths - Up to half (Part 1)
 			for ( int patternLength = 1; patternLength <= length / 2; patternLength++ )
 			{
 				// Pattern must divide evenly into the total length
@@ -45,7 +45,7 @@ namespace d2 {
 			}
 
 			if ( bIsInvalid )
-				g_iResult += i;
+				g_unResult += i;
 		}
 	}
 
@@ -87,7 +87,7 @@ namespace d2 {
 
 		}
 
-		return g_iResult;
+		return g_unResult;
 	}
 
 }
