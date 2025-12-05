@@ -7,15 +7,15 @@ namespace d3 {
 	inline uint64_t g_uResult = 0;
 
 	inline
-	uint64_t
+	int
 	StringToUInt64( const std::string& s )
 	{
-		uint64_t result = 0;
+		uint64_t iResult = 0;
 		for ( char c : s )
 		{
-			result = result * 10 + ( c - '0' );
+			iResult = iResult * 10 + ( c - '0' );
 		}
-		return result;
+		return iResult;
 	}
 
 	inline
@@ -89,6 +89,28 @@ namespace d3 {
 		}
 
 		return iResult;
+	}
+
+	inline
+	int
+	GetKLargest( const std::string & sLine , int iBatteries )
+	{
+		std::string sStack;
+		sStack.reserve( 12 );
+
+		int iBudget = sLine.size() - iBatteries;
+
+		for ( int i = 0; i < sLine.size() - iBudget; i++ )
+		{
+			while ( !sStack.empty() 
+				&& iBudget > 0 
+				&& sStack.back() < )
+			{
+
+			}
+		}
+
+		return StringToUInt64( sStack );
 	}
 
 	inline 
