@@ -8,6 +8,18 @@ namespace d3 {
 
 	inline
 	uint64_t
+	StringToUInt64( const std::string& s )
+	{
+		uint64_t result = 0;
+		for ( char c : s )
+		{
+			result = result * 10 + ( c - '0' );
+		}
+		return result;
+	}
+
+	inline
+	uint64_t
 	GetJoltageForCurrentLine( const std::string& sLine )
 	{
 		int iTens = 0;
@@ -38,6 +50,48 @@ namespace d3 {
 	}
 
 	inline 
+	uint64_t
+	GetJoltageForCurrentLine( const std::string & sLine , int iBatteries )
+	{
+		std::vector<int> vDigits { iBatteries, 0 };
+		int iLargestPos = 0; // Start searching from the beginning
+
+		// Which digit we are currently try to fill
+		for ( size_t idx = 0; idx < iBatteries; idx++ )
+		{
+			// Find the largest digit in the valid range
+			int iMaxDigit = -1;
+			int iMaxPos = iLargestPos;
+
+			// Go up to the remaining positions:
+			size_t iSearchEnd = sLine.size() - ( iBatteries - idx );
+
+
+			for ( size_t i = iLargestPos; i <= iSearchEnd; i++ )
+			{
+				int digit = sLine[ i ] - '0';
+				if ( digit > iMaxDigit )
+				{
+					iMaxDigit = digit;
+					iMaxPos = i;
+				}
+			}
+
+			vDigits[ idx ] = iMaxDigit;
+			iLargestPos = iMaxPos + 1; // Next search starts after this position
+		}
+
+		// Convert array into integer
+		uint64_t iResult = 0;
+		for ( int digit : vDigits )
+		{
+			iResult = iResult * 10 + digit;
+		}
+
+		return iResult;
+	}
+
+	inline 
 	int
 	Run()
 	{
@@ -54,7 +108,7 @@ namespace d3 {
 		{
 			// sLine should now contain something like: "22322122122122222112212311..."
 
-			g_uResult += GetJoltageForCurrentLine( sLine );
+			g_uResult += GetJoltageForCurrentLine( sLine, 12 );
 		}
 
 		return g_uResult;
