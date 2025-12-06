@@ -29,6 +29,10 @@ target_include_directories( ${PROJECT_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/util
 )
 
+# Copy all input files
+file(GLOB_RECURSE INPUT_FILES ${CMAKE_SOURCE_DIR}/src/Day*/input*.txt)
+file(COPY ${INPUT_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET AdventOfCode2025 PROPERTY CXX_STANDARD 20)
 endif()

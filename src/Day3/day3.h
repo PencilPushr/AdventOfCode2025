@@ -7,7 +7,7 @@ namespace d3 {
 	inline uint64_t g_uResult = 0;
 
 	inline
-	int
+	uint64_t
 	StringToUInt64( const std::string& s )
 	{
 		uint64_t iResult = 0;
@@ -53,7 +53,7 @@ namespace d3 {
 	uint64_t
 	GetJoltageForCurrentLine( const std::string & sLine , int iBatteries )
 	{
-		std::vector<int> vDigits { iBatteries, 0 };
+		std::vector<int> vDigits( iBatteries, 0 );
 		int iLargestPos = 0; // Start searching from the beginning
 
 		// Which digit we are currently try to fill
@@ -92,29 +92,35 @@ namespace d3 {
 	}
 
 	inline
-	int
+	uint64_t
 	GetKLargest( const std::string & sLine , int iBatteries )
 	{
 		std::string sStack;
-		sStack.reserve( 12 );
+		int iToRemove = sLine.size() - iBatteries;
 
-		int iBudget = sLine.size() - iBatteries;
-
-		for ( int i = 0; i < sLine.size() - iBudget; i++ )
+		for ( int i = 0; i < sLine.size(); i++ )
 		{
-			while ( !sStack.empty() 
-				&& iBudget > 0 
-				&& sStack.back() < )
+			while ( !sStack.empty() && iToRemove > 0 && sStack.back() < sLine[ i ])
 			{
-
+				sStack.pop_back();
+				iToRemove--;
 			}
+
+			sStack.push_back( sLine[ i ] );
+		}
+
+		// Remove any remaining from end
+		while ( iToRemove > 0 )
+		{
+			sStack.pop_back();
+			iToRemove--;
 		}
 
 		return StringToUInt64( sStack );
 	}
 
 	inline 
-	int
+	uint64_t
 	Run()
 	{
 		const char * pFilename = "input_d3.txt";
@@ -130,7 +136,7 @@ namespace d3 {
 		{
 			// sLine should now contain something like: "22322122122122222112212311..."
 
-			g_uResult += GetJoltageForCurrentLine( sLine, 12 );
+			g_uResult += GetKLargest( sLine, 12 );
 		}
 
 		return g_uResult;
