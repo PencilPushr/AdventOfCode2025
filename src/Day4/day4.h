@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-#define SOL1
+//#define SOL1
 
 namespace d4 {
 
