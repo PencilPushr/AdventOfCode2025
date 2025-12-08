@@ -29,3 +29,36 @@ using HANDLE = void*;
 using VOID = void;
 
 #endif
+
+
+inline
+std::ifstream
+ReadFile(
+    const char* pFilename
+)
+{
+    std::ifstream fFile{ pFilename };
+    if ( !fFile )
+    {
+        std::cerr << "Failed to read " << pFilename << "\n";
+    }
+
+    return fFile;  // returned by value (moved)
+}
+
+inline
+std::vector<std::string>
+ReadLines(
+    std::ifstream& fFile
+)
+{
+    std::vector<std::string> vLines;
+
+    std::string sLine;
+    while ( std::getline( fFile , sLine ) )
+    {
+        vLines.push_back( sLine );
+    }
+
+    return vLines; 
+}
