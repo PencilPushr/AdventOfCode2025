@@ -5,6 +5,7 @@
 #include "Day2/day2.h"
 #include "Day3/day3.h"
 #include "Day4/day4.h"
+#include "Day5/day5.h"
 
 int main()
 {
@@ -12,6 +13,6 @@ int main()
 
 	// printf was replaced in favour of std::cout as it automatically handles what the return type and print value should be
 	// Which is annoying as I much prefer the syntax and C-style of printf()
-	std::cout << d4::Run();
+	std::cout << d5::Run();
 	return 0;
 }
