@@ -69,20 +69,37 @@ namespace d5
 
 		uint64_t iTotalFresh = 0;
 
-		for ( int i = 0; i < vIntervals.size() - 1; i++ )
-		{
-			// If the current Range.iMax < Range.iMin - must be seperate
-			if ( vIntervals[ i ].second < vIntervals[ i + 1 ].first )
-			{
+		/*
+		Sorted intervals:
+		    [  3 ---  5 ]
+		           [  4 --------  9 ]
+		                         [  7 -------- 12 ]
+		                                         [ 14 --- 17 ]
+		*/
 
+		uint64_t iCurL = vIntervals[ 0 ].first;
+		uint64_t iCurR = vIntervals[ 0 ].second;
+
+		for ( int i = 1; i < vIntervals.size() - 1; i++ )
+		{
+			uint64_t iNextL = vIntervals[ i ].first;
+			uint64_t iNextR = vIntervals[ i ].second;
+
+			if ( iNextL <= iCurR)
+			{
+				// if ( iCurR < iNextR ) avoid the condition like:
+				// [ 3 --- 9 ] [ 4 --- 8 ] where iCur:9 >= iNextL:4 but do not set iCur to a smaller value.
+				iCurR = std::max(iCurR, iNextR);
 			}
 			else
 			{
-
+				iTotalFresh += ( iCurR - iCurL ) + 1;
+				iCurL = iNextL;
+				iCurR = iNextR;
 			}
 		}
 
-		return totalFresh
+		return iTotalFresh;
 #endif
 	}
 }
